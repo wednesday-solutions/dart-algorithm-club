@@ -1,3 +1,4 @@
+import 'package:dart_algorithm_club/utils/swap.dart';
 
 List<T> sortInAscendingOrder<T extends Comparable>(List<T> elements) {
   return bubbleSort(elements, (a, b) => a.compareTo(b) > 0);
@@ -17,13 +18,4 @@ List<T> bubbleSort<T extends Comparable>(List<T> elements, bool Function(T a, T 
     }
   }
   return sortedList;
-}
-
-extension Swap<T extends Comparable> on List<T> {
-
-  void swap(int fromIndex, int toIndex) {
-    var temp = this[fromIndex];
-    this[fromIndex] = this[toIndex];
-    this[toIndex] = temp;
-  }
 }
