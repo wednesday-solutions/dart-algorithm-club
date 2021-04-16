@@ -8,7 +8,7 @@ void main() {
     dataSource = [0, -5, 2, -4];
   });
 
-  group('Tests for Bubble sort', () {
+  group('Tests for Selection sort', () {
     test('sortInAscendingOrder should sort the array in ascending order', () {
       expect(sortInAscendingOrder(dataSource), [-5, -4, 0, 2]);
     });
