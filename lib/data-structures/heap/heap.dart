@@ -1,10 +1,10 @@
 
-abstract class Heap {
+abstract class Heap<T extends Comparable> {
 
-  var heapContainer = <num>[];
+  var heapContainer = <T>[];
 
   Heap(this.heapContainer) {
-    configureHeap();
+    reHeap();
   }
 
   Heap addItem(item) {
@@ -13,7 +13,7 @@ abstract class Heap {
     return this;
   }
 
-  void configureHeap() {
+  void reHeap() {
     if (heapContainer.isNotEmpty) {
       for (var index = heapContainer.length - 1; index >= ((heapContainer.length - 1)/2).floor(); index -= 1) {
         heapifyUp(index);
@@ -45,15 +45,15 @@ abstract class Heap {
     return getRightChildIndex(parentIndex) < heapContainer.length;
   }
 
-  num leftChild(parentIndex) {
+  T leftChild(parentIndex) {
     return heapContainer[getLeftChildIndex(parentIndex)];
   }
 
-  num rightChild(parentIndex) {
+  T rightChild(parentIndex) {
     return heapContainer[getRightChildIndex(parentIndex)];
   }
 
-  num parent(index) {
+  T parent(index) {
     return heapContainer[getParentIndex(index)];
   }
 
@@ -71,5 +71,5 @@ abstract class Heap {
     }
   }
 
-  bool pairIsInCorrectOrder(num itemOne, num itemTwo);
+  bool pairIsInCorrectOrder(T itemOne, T itemTwo);
 }
