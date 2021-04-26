@@ -1,15 +1,4 @@
-extension MaxComparableElement on List<num> {
-  num max() {
-    var maxElement = this[0];
-    var looper = iterator;
-    while(looper.moveNext()) {
-      if(looper.current.compareTo(maxElement) > 0) {
-        maxElement = looper.current;
-      }
-    }
-    return maxElement;
-  }
-}
+import 'package:dart_algorithm_club/utils/max-num.dart';
 
 List<num> countingSort(List<num> elements) {
   var maxElement = elements.max();
