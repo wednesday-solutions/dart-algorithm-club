@@ -5,7 +5,7 @@ class MinHeap extends Heap {
   MinHeap(List<num> heapContainer) : super(heapContainer);
 
   @override
-  bool pairIsInCorrectOrder(num itemOne, num itemTwo) {
-    return itemOne < itemTwo;
+  bool pairIsInCorrectOrder(Comparable itemOne, Comparable itemTwo) {
+    return itemOne.compareTo(itemTwo) < 0;
   }
 }
