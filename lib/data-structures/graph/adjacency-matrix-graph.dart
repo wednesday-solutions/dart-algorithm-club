@@ -1,4 +1,6 @@
 
+import 'dart:collection';
+
 import 'package:dart_algorithm_club/data-structures/graph/edge.dart';
 import 'package:dart_algorithm_club/data-structures/graph/graph.dart';
 import 'package:dart_algorithm_club/data-structures/graph/vertex.dart';
@@ -44,6 +46,49 @@ class AdjacencyMatrixGraph<T> extends Graph {
 
   @override
   List<Vertex> get vertices => _vertices;
+
+  @override
+  HashMap<Vertex, num> get indegrees {
+    var hashMap = HashMap<Vertex, num>();
+    for (var vertex in _vertices) {
+      hashMap[vertex] = 0;
+    }
+    for (var vertex in _vertices) {
+      var edges = edgesFrom(vertex);
+      for (var edge in edges) {
+        hashMap[edge.to] += 1;
+      }
+    }
+    return hashMap;
+  }
+
+  @override
+  List<Vertex> get topologicalSort {
+    List<Vertex> depthFirstSearch(Vertex startNode, HashMap<Vertex, bool> visited) {
+      var result = <Vertex>[];
+      visited[startNode] = true;
+      for (var edge in edgesFrom(startNode)) {
+        if (!visited[edge.to]) {
+          result = depthFirstSearch(edge.to, visited) + result;
+        }
+      }
+
+      return [startNode] + result;
+    }
+    var startVertices = indegrees;
+    startVertices.removeWhere((key, value) => value != 0);
+    var startNodes = startVertices.keys;
+    var visited = HashMap<Vertex, bool>();
+    for (var vertex in _vertices) {
+      visited[vertex] = false;
+    }
+
+    var result = <Vertex>[];
+    for (var startNode in startNodes) {
+      result = depthFirstSearch(startNode, visited) + result;
+    }
+    return result;
+  }
 
   @override
   void addDirectedEdge(Vertex from, Vertex to, [num weight]) {

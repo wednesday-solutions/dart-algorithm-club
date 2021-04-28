@@ -1,4 +1,6 @@
 
+import 'dart:collection';
+
 import 'package:dart_algorithm_club/data-structures/graph/edge.dart';
 import 'package:dart_algorithm_club/data-structures/graph/vertex.dart';
 
@@ -11,5 +13,5 @@ abstract class Graph<T> {
 
   List<Edge<T>> get edges;
   List<Vertex<T>> get vertices;
-
+  List<Vertex> get topologicalSort;
 }

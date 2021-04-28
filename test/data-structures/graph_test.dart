@@ -1,10 +1,14 @@
+import 'dart:collection';
+
 import 'package:dart_algorithm_club/data-structures/graph/adjacency-list-graph.dart';
 import 'package:dart_algorithm_club/data-structures/graph/adjacency-matrix-graph.dart';
+import 'package:dart_algorithm_club/data-structures/graph/vertex.dart';
 import 'package:test/test.dart';
 
 void main() {
   AdjacencyMatrixGraph adjacencyMatrixGraph;
   AdjacencyListGraph adjacencyListGraph;
+  var expectedIndegrees = HashMap<Vertex, num>();
 
   setUp(() {
     adjacencyMatrixGraph = AdjacencyMatrixGraph();
@@ -23,6 +27,12 @@ void main() {
       graph.addDirectedEdge(v3, v4, 4.5);
       graph.addDirectedEdge(v4, v1, 2.8);
       graph.addDirectedEdge(v2, v5, 3.2);
+
+      expectedIndegrees[v1] = 1;
+      expectedIndegrees[v2] = 1;
+      expectedIndegrees[v3] = 1;
+      expectedIndegrees[v4] = 1;
+      expectedIndegrees[v5] = 1;
     }
   });
 
@@ -39,6 +49,11 @@ void main() {
           '2 -> [3: 1, 5: 3.2]\n'
           '3 -> [4: 4.5]\n'
           '4 -> [1: 2.8]');
+    });
+
+    test('it should calculate the indegrees of each vertex correctly', () {
+      expect(adjacencyMatrixGraph.indegrees, expectedIndegrees);
+      expect(adjacencyListGraph.indegrees, expectedIndegrees);
     });
   });
 }

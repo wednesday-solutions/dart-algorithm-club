@@ -12,5 +12,5 @@ class Vertex<T> {
   int get hashCode => data.hashCode * index.hashCode;
 
   @override
-  String toString() => '${index}: ${data}';
+  String toString() => '$index: $data';
 }
