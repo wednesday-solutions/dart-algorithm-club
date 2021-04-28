@@ -1,5 +1,7 @@
 
 
+import 'dart:collection';
+
 import 'package:dart_algorithm_club/data-structures/graph/edge-list.dart';
 import 'package:dart_algorithm_club/data-structures/graph/edge.dart';
 import 'package:dart_algorithm_club/data-structures/graph/graph.dart';
@@ -29,6 +31,49 @@ class AdjacencyListGraph<T> extends Graph {
       vertices.add(edgeList.vertex);
     });
     return vertices;
+  }
+
+  @override
+  HashMap<Vertex, num> get indegrees {
+    var hashMap = HashMap<Vertex, num>();
+    for (var edgeList in adjacencyList) {
+      hashMap[edgeList.vertex] = 0;
+    }
+
+    for (var edgeList in adjacencyList) {
+      for (var edge in edgeList.edges) {
+        hashMap[edge.to] += 1;
+      }
+    }
+    return hashMap;
+  }
+
+  @override
+  List<Vertex> get topologicalSort {
+    List<Vertex> depthFirstSearch(Vertex startNode, HashMap<Vertex, bool> visited) {
+      var result = <Vertex>[];
+      visited[startNode] = true;
+      for (var edge in edgesFrom(startNode)) {
+        if (edge != null && !visited[edge.to]) {
+          result = depthFirstSearch(edge.to, visited) + result;
+        }
+      }
+
+      return [startNode] + result;
+    }
+    var startVertices = indegrees;
+    startVertices.removeWhere((key, value) => value != 0);
+    var startNodes = startVertices.keys;
+    var visited = HashMap<Vertex, bool>();
+    for (var edgeList in adjacencyList) {
+      visited[edgeList.vertex] = false;
+    }
+
+    var result = <Vertex>[];
+    for (var startNode in startNodes) {
+      result = depthFirstSearch(startNode, visited) + result;
+    }
+    return result;
   }
 
   @override
@@ -72,7 +117,7 @@ class AdjacencyListGraph<T> extends Graph {
   @override
   List<Edge<T>> edgesFrom(Vertex sourceVertex) {
     var edgeList = adjacencyList[sourceVertex.index];
-    if (edgeList) {
+    if (edgeList != null) {
       return edgeList.edges;
     }
     return null;
